@@ -20,6 +20,7 @@
 
 <script>
   import EditBar from './EditBar.vue'
+  import { Bar } from '../models/Bar.js'
   export default {
     name: 'Bar',
     components: {
@@ -40,6 +41,7 @@
         this.editing = false;
       },
       save: function() {
+        new Bar(this.bar).persist()
         this.editing = false;
       }
     }

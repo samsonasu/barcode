@@ -1,72 +1,61 @@
 <template>
   <div id="app">
-    <div alt="Barcode Today!" class="header">
-      <div class="creep" />
-      <h1>Barcode Today!</h1>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+      <div class="login-state">
+        <div v-if="currentUser">
+          Welcome, {{currentUser.displayName}}
+          <a @click="logout">Logout</a>
+        </div>
+        <Login v-if="!currentUser">Login</Login>
+      </div>
     </div>
-    <p>Barcoding is the latest rage among all the cool tech hipsters!
-      Why work from a coffee shop or <span class="gasp">*gasp*</span> from
-      and office when you can work from a bar!
-    <div v-if="!loading">
-      <h2 style="clear: both;">
-        Here's all the bars I know about:
-      </h2>
-      <BarIndex v-bind:bars="bars" />
-    </div>
-    <div class="loading" v-if="loading"><i class="fa fa-spinner fa-spin"/>Loading...</div>
+    <router-view/>
   </div>
 </template>
 
 <script>
+import Login from '@/components/Login.vue'
+import { fbUser } from '@/services/Firebase'
+import { auth } from '@/services/Firebase'
 
-import BarIndex from './components/BarIndex.vue'
-// import { FirebaseConfig } from './config/firebase.config'
-
-let firebaseConfig = require('./config/firebase.config');
 export default {
   name: 'app',
   components: {
-    BarIndex
+    Login
   },
   data: function() {
     return {
-      bars: [],
-      loading: true
+      currentUser: null
     }
   },
-  created: function() {
-    const app = window.firebase.initializeApp(firebaseConfig.default);
-    const db = window.firebase.firestore(app);
-    const vue = this;
-    db.collection("bars").get().then(function(results) {
-      results.forEach(function(bar) {
-        let barData = bar.data();
-        barData.id = bar.id;
-        vue.bars.push(barData);
-        vue.loading = false;
-      });
-    })
+  created() {
+    //esline-disable-next-line
+    let me = this;
+    auth().onAuthStateChanged(function(user) {
+      me.currentUser = user;
+    });
+  },
+  methods: {
+    logout() {
+      auth().signOut();
+    }
   }
 }
 
 </script>
 
-<style lang="sass">
-  .creep
-    float: left
-    height: 200px
-    width: 200px
-    border-radius: 50%
-    background-image: url('./assets/barcode-creepy.jpg')
-    background-size: 100%
-    margin: 20px
-  .gasp
-    font-style: italic
-
-  .loading
-    clear: both
-    text-align: center
-    font-size: 60px
-
+<style lang="sass" scoped>
+  #app
+    font-family: 'Avenir', Helvetica, Arial, sans-serif
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    color: #2c3e50
+  .login-state
+    float: right
+  #nav
+    background: #eee
+    padding: 8px
 
 </style>
