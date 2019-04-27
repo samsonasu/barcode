@@ -22,26 +22,18 @@
             // Return type determines whether we continue the redirect automatically
             // or whether we leave that to developer to handle.
             // this.$router.replace('home');
-            // eslint-disable-next-line
-            debugger
+            authResult
+            _redirectUrl
             return false;
           }
         },
         // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
         signInFlow: 'popup',
-          signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.TwitterAuthProvider.PROVIDER_ID
-          ]
+        signInOptions: [
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          firebase.auth.TwitterAuthProvider.PROVIDER_ID
+        ]
         });
-
-      //   const provider = new window.firebase.auth.GoogleAuthProvider();
-
-      //   firebase.auth().signInWithPopup(provider).then((result) => {
-      //
-      //   }).catch((err) => {
-      //     alert("Ruh Roh")
-      //   })
       }
     }
   }
@@ -56,4 +48,3 @@
     padding: 20px
 
 </style>
-

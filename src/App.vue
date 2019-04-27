@@ -17,7 +17,6 @@
 
 <script>
 import Login from '@/components/Login.vue'
-import { fbUser } from '@/services/Firebase'
 import { auth } from '@/services/Firebase'
 
 export default {
@@ -31,7 +30,6 @@ export default {
     }
   },
   created() {
-    //esline-disable-next-line
     let me = this;
     auth().onAuthStateChanged(function(user) {
       me.currentUser = user;

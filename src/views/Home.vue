@@ -6,7 +6,7 @@
     </div>
     <p>Barcoding is the latest rage among all the cool tech hipsters!
       Why work from a coffee shop or <span class="gasp">*gasp*</span> from
-      and office when you can work from a bar!
+      an office when you can work from a bar!
     <div v-if="!loading">
       <h2 style="clear: both;">
         Here's all the bars I know about:
@@ -20,7 +20,7 @@
 <script>
 
 import BarIndex from '@/components/BarIndex.vue'
-import { Bar } from '@/models/Bar.js'
+import { Bar } from '@/models/Bar'
 import { db } from '@/services/Firebase'
 
 export default {
@@ -38,7 +38,7 @@ export default {
     // const app = window.firebase.initializeApp(firebaseConfig.default);
     // const db = window.firebase.firestore(app);
     const vue = this;
-    db().collection("bars").get().then(function(results) {
+    db().collection("Bar").get().then(function(results) {
       results.forEach(function(bar) {
         vue.bars.push(Bar.fromFirebase(bar).data)
         vue.loading = false;

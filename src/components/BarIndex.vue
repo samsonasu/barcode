@@ -1,20 +1,26 @@
 <template>
   <div class="bar-index">
-    <Bar v-for="bar in bars" :key="bar.id" v-bind:bar="bar" />
-    <button class="button success ">Add a Bar</button>
+    <BarVue v-for="bar in bars" :key="bar.id" v-bind:bar="bar" />
+    <button class="button success" @click="addBar">Add a Bar</button>
   </div>
 </template>
 
 <script>
-import Bar from './Bar.vue'
+import BarVue from '@/components/Bar.vue'
+import { Bar } from '@/models/Bar.js'
 
 export default {
   name: 'BarIndex',
   components: {
-    Bar
+    BarVue
   },
   props: {
     bars: Array
+  },
+  methods: {
+    addBar: function() {
+      this.bars.push(new Bar({name: "New Bar"}).data)
+    }
   }
 }
 </script>
@@ -23,4 +29,3 @@ export default {
   .bar-index
     min-height: 100px
 </style>
-

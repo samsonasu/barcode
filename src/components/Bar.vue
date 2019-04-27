@@ -26,10 +26,14 @@
     components: {
       EditBar
     },
+    data: function() {
+      return {
+        editing: this.bar.id == null || this.editing
+      }
+    },
     props: {
       bar: Object,
-      expanded: Boolean,
-      editing: Boolean
+      expanded: Boolean
     },
     methods: {
       startEdit: function() {
@@ -57,4 +61,3 @@
   button
     margin: 8px
 </style>
-

@@ -9,13 +9,21 @@ export class Model {
     })
   }
 
-  static fromFirebase(fbData) {
-    let m = new this(fbData.data())
-    m.data.id = fbData.id
+  static fromFirebase(firebaseData) {
+    let m = new this(firebaseData.data())
+    m.data.id = firebaseData.id
     return m
   }
 
   persist() {
-    db().collection("bars").doc(this.data.id).set(this.data);
+    if (this.data.id) {
+      db().collection(this.constructor.name).doc(this.data.id).set(this.data);
+    } else {
+      db().collection(this.constructor.name).add(this.data).then((result) => {
+        this.data.id = result.id
+      }).catch(() => {
+        alert("Something went wrong.  Please refresh and try again.")
+      })
+    }
   }
 }
